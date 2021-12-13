@@ -1,0 +1,31 @@
+{
+  "name": "assets-manager",
+  "version": "0.0.1",
+  "description": "Assets manager service",
+  "main": "dist/AssetsManager.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.1.1",
+    "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.11.12",
+    "concurrently": "^6.4.0",
+    "nodemon": "^2.0.15",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "preserve": "npm run build",
+    "serve": "cross-env NODE_ENV=development concurrently \"tsc --watch\" \"nodemon -q dist/asset-manager.js\"",
+    "prestart": "npm run build",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
