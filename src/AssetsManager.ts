@@ -1,5 +1,6 @@
 import express, {Express} from 'express'
 import dotenv from 'dotenv'
+import mongoose, { Schema } from 'mongoose'
 
 import router from './Router'
 
@@ -20,7 +21,12 @@ console.log(`Initializing ${SERVICE_NAME} service.`)
 app.use(router)
 
 app.listen(PORT, DOMAIN, () => {
+    initDb()
     console.log(`Service started with active profile ${PROFILES_ACTIVE}.`)
     console.log(`Listen on ${BASE_URL}`)
 })
+
+const initDb = () => {
+    mongoose.connect("mongodb://0.0.0.0:27017/assets-manager")
+}
 
