@@ -1,8 +1,12 @@
 import express, {Express} from 'express'
 import dotenv from 'dotenv'
 import mongoose, { Schema } from 'mongoose'
+import bodyParser from 'body-parser'
 
-import router from './Router'
+import AssetsRouter from './Router'
+import LoginRouter from './services/auth/LoginRouter'
+import PersonRouter from './services/person/PersonService'
+import BankAccountService from './services/bank-account/BankAccountService'
 
 dotenv.config()
 
@@ -17,8 +21,15 @@ const PROFILES_ACTIVE = process.env.PROFILES_ACTIVE
 const app: Express = express()
 
 console.log(`Initializing ${SERVICE_NAME} service.`)
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use(router)
+// parse application/json
+app.use(bodyParser.json())
+app.use(AssetsRouter)
+app.use("/auth", LoginRouter)
+app.use("/persons", PersonRouter)
+app.use("/bank-account", BankAccountService)
 
 app.listen(PORT, DOMAIN, () => {
     initDb()
@@ -27,6 +38,5 @@ app.listen(PORT, DOMAIN, () => {
 })
 
 const initDb = () => {
-    mongoose.connect("mongodb://0.0.0.0:27017/assets-manager")
+    mongoose.connect("mongodb://admin:admin@localhost:27017")
 }
-
