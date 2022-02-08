@@ -2,11 +2,13 @@ import express, {Express} from 'express'
 import dotenv from 'dotenv'
 import mongoose, { Schema } from 'mongoose'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 
 import AssetsRouter from './Router'
 import LoginRouter from './services/auth/LoginRouter'
 import PersonRouter from './services/person/PersonService'
 import BankAccountService from './services/bank-account/BankAccountService'
+import ReportsService from './services/reports/ReportsService'
 
 dotenv.config()
 
@@ -22,6 +24,8 @@ const app: Express = express()
 
 console.log(`Initializing ${SERVICE_NAME} service.`)
 // parse application/x-www-form-urlencoded
+
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json

@@ -5,7 +5,8 @@ export interface IPersonModel {
     lastName: String,
     documentNumber: String,
     assets: Array<any>,
-    email: String
+    email: String,
+    bankAccounts: Array<any>
 }
 
 const PersonSchema = new Schema<IPersonModel, Model<IPersonModel>>({
@@ -13,7 +14,8 @@ const PersonSchema = new Schema<IPersonModel, Model<IPersonModel>>({
     lastName: String,
     documentNumber: String,
     assets: [],
-    email: String
+    email: String,
+    bankAccounts: []
 })
 
 const PersonModel = model("Person", PersonSchema)

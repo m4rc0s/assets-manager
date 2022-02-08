@@ -1,16 +1,22 @@
 import { response, Router } from "express"
 import { preProcessFile } from "typescript"
+import { IBankAccountHolder, IBankAccountModel } from "../../model/BankAccountModel"
 import Asset from "../../resources/Asset"
 import PersonModel from "./model/Person"
 
 export default
     Router()
         .post("/", async (request, response) => {
+            console.log("request: ", request.body)
             const personData = request.body
 
             const person = new PersonModel(personData)
 
+            console.log("Person: ", person)
+
             const personCreated = await person.save()
+
+            console.log("Pessoa criada: ", personCreated);
 
             response.status(201).json(personCreated)
         })
@@ -50,4 +56,23 @@ export default
             }
 
             response.status(200).json(result)
+        })
+        .post("/:id/bank-accounts", async (req, res) => {
+            const personId = req.params.id
+            const person = await PersonModel.findById(personId)
+            const bankAccountData : IBankAccountModel = req.body as IBankAccountModel
+
+            person?.bankAccounts.push(bankAccountData)
+            
+            await person?.save()
+            
+            return res.status(200).json(person)
+        })
+        .get("/:id/bank-accounts", async (req, res) => {
+            const person = await PersonModel.findById(req.params.id)
+            const result = {
+                "items": person?.bankAccounts
+            }
+
+            res.status(200).json(result)
         })
