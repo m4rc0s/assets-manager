@@ -1,78 +1,79 @@
-import { response, Router } from "express"
-import { preProcessFile } from "typescript"
-import { IBankAccountHolder, IBankAccountModel } from "../../model/BankAccountModel"
-import Asset from "../../resources/Asset"
-import PersonModel from "./model/Person"
+import { Router } from 'express'
 
-export default
-    Router()
-        .post("/", async (request, response) => {
-            console.log("request: ", request.body)
-            const personData = request.body
+import { IBankAccountModel } from '../../model/BankAccountModel'
+import Asset from '../../resources/Asset'
+import PersonModel from './model/Person'
 
-            const person = new PersonModel(personData)
+export default Router()
+  .post('/', async (request, response) => {
+    console.log('request: ', request.body)
+    const personData = request.body
 
-            console.log("Person: ", person)
+    const person = new PersonModel(personData)
 
-            const personCreated = await person.save()
+    console.log('Person: ', person)
 
-            console.log("Pessoa criada: ", personCreated);
+    const personCreated = await person.save()
 
-            response.status(201).json(personCreated)
-        })
-        .post("/:id/assets", async (request, response) => {
-            const personId = request.params.id
-            const assetData : Asset = request.body as Asset
+    console.log('Pessoa criada: ', personCreated)
 
-            const person = await PersonModel.findById(personId)
+    response.status(201).json(personCreated)
+  })
+  .post('/:id/assets', async (request, response) => {
+    const personId = request.params.id
+    const assetData: Asset = request.body as Asset
 
-            person?.assets.push(assetData)
+    const person = await PersonModel.findById(personId)
 
-            await person?.save()
+    person?.assets.push(assetData)
 
-            return response.status(200).json(person)
-        })
-        .get("/:id/assets", async (request, response) => {
-            const personId = request.params.id
-            const person = await PersonModel.findById(personId)
+    await person?.save()
 
-            const result = {
-                "items": person?.assets
-            }
+    return response.status(200).json(person)
+  })
+  .get('/:id/assets', async (request, response) => {
+    const personId = request.params.id
+    const person = await PersonModel.findById(personId)
 
-            response.status(200).json(result)
-        })
-        .get("/:id/financial-status", async(request, response) => {
-            const personId = request.params.id
-            const person = await PersonModel.findById(personId)
+    const result = {
+      items: person?.assets,
+    }
 
-            const total = person?.assets.reduce((acc, curr) => acc + curr.value, 0)
+    response.status(200).json(result)
+  })
+  .get('/:id/financial-status', async (request, response) => {
+    const personId = request.params.id
+    const person = await PersonModel.findById(personId)
 
-            console.log(total)
+    const total = person?.assets.reduce((acc, curr) => acc + curr.value, 0)
 
-            const result = {
-                "assets": person?.assets.map((item) => { return { code: item.code, value: item.value } } ),
-                "totalAmount": total
-            }
+    console.log(total)
 
-            response.status(200).json(result)
-        })
-        .post("/:id/bank-accounts", async (req, res) => {
-            const personId = req.params.id
-            const person = await PersonModel.findById(personId)
-            const bankAccountData : IBankAccountModel = req.body as IBankAccountModel
+    const result = {
+      assets: person?.assets.map(item => {
+        return { code: item.code, value: item.value }
+      }),
+      totalAmount: total,
+    }
 
-            person?.bankAccounts.push(bankAccountData)
-            
-            await person?.save()
-            
-            return res.status(200).json(person)
-        })
-        .get("/:id/bank-accounts", async (req, res) => {
-            const person = await PersonModel.findById(req.params.id)
-            const result = {
-                "items": person?.bankAccounts
-            }
+    response.status(200).json(result)
+  })
+  .post('/:id/bank-accounts', async (req, res) => {
+    const personId = req.params.id
+    const person = await PersonModel.findById(personId)
+    const bankAccountData: IBankAccountModel = req.body as IBankAccountModel
 
-            res.status(200).json(result)
-        })
+    person?.bankAccounts.push(bankAccountData)
+
+    await person?.save()
+
+    return res.status(200).json(person)
+  })
+  .get('/:id/bank-accounts', async (req, res) => {
+    const person = await PersonModel.findById(req.params.id)
+    const result = {
+      items: person?.bankAccounts,
+    }
+
+    res.status(200).json(result)
+  })

@@ -1,19 +1,16 @@
-import mongoose from "mongoose"
-import { LoginModel, LoginDTO, ILoginDTO } from "./model"
+import { ILoginDTO, LoginDTO, LoginModel } from './model'
 
 export class LoginService {
-    
-    static create = async (loginData: LoginDTO): Promise<ILoginDTO> => {
+  static create = async (loginData: LoginDTO): Promise<ILoginDTO> => {
+    const loginModel = new LoginModel({
+      username: loginData.username,
+      password: loginData.password,
+    })
 
-        let loginModel = new LoginModel({
-            username: loginData.username,
-            password: loginData.password
-        })
-        
-        let login = await loginModel.save()
-    
-        return LoginDTO.fromModel(login)
-    }
+    const login = await loginModel.save()
+
+    return LoginDTO.fromModel(login)
+  }
 }
 
 export default LoginService

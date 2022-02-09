@@ -1,11 +1,9 @@
-
 class HealthCheckResponse {
-    status: String = "Any Status"
+  status = 'Any Status'
 
-    constructor(status: String = "UP") {
-        this.status = status
-    }
-
+  constructor(status = 'UP') {
+    this.status = status
+  }
 }
 
 export default HealthCheckResponse

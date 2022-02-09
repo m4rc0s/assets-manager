@@ -1,42 +1,35 @@
-import LoginModel, { ILoginModel } from "./Login"
+import { ILoginModel } from './Login'
 
 export interface ILoginRequest {
-    username: String,
-    password: String
+  username: string
+  password: string
 }
 
 export interface ILoginResponse {
-    username: String
+  username: string
 }
 
 export interface ILoginDTO {
-    username: String,
-    password: String
+  username: string
+  password: string
 }
 
 class LoginDTO implements ILoginDTO {
+  username = ''
+  password = ''
 
-    username: String = ""
-    password: String = ""
+  constructor(username: string, password: string) {
+    this.username = username
+    this.password = password
+  }
 
-    constructor(username: String, password: String) {
-        this.username = username
-        this.password = password
-    }
+  static fromModel = (loginModel: ILoginModel): ILoginDTO => {
+    return new LoginDTO(loginModel.username, loginModel.password)
+  }
 
-    static fromModel = (loginModel: ILoginModel): ILoginDTO => {
-        return new LoginDTO(
-            loginModel.username,
-            loginModel.password
-        )
-    }
-
-    static create = (username: String, password: String) => {
-        return new LoginDTO(
-            username,
-            password
-        )
-    }
+  static create = (username: string, password: string) => {
+    return new LoginDTO(username, password)
+  }
 }
 
 export default LoginDTO

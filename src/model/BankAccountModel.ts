@@ -1,33 +1,36 @@
-import { Schema, Model, model } from "mongoose"
+import { Model, Schema, model } from 'mongoose'
 
 export interface IBankAccountHolder {
-    personId: String
+  personId: string
 }
 
 export interface IBankAccountModel {
-    name: String,
-    branch: String,
-    accountNumber: String,
-    digit: String,
-    bankCode: String,
-    customCode: String,
-    description: String,
-    holder: any,
-    totalAmount: Number
+  name: string
+  branch: string
+  accountNumber: string
+  digit: string
+  bankCode: string
+  customCode: string
+  description: string
+  holder: any
+  totalAmount: number
 }
 
-const BankAccountSchema = new Schema<IBankAccountModel, Model<IBankAccountModel>>({
-    name: String,
-    branch: String,
-    accountNumber: String,
-    digit: String,
-    bankCode: String,
-    customCode: String,
-    description: String,
-    holder: {} as IBankAccountHolder,
-    totalAmount: Number
+const BankAccountSchema = new Schema<
+  IBankAccountModel,
+  Model<IBankAccountModel>
+>({
+  name: String,
+  branch: String,
+  accountNumber: String,
+  digit: String,
+  bankCode: String,
+  customCode: String,
+  description: String,
+  holder: {} as IBankAccountHolder,
+  totalAmount: Number,
 })
 
-const BankAccountModel = model("BankAccount", BankAccountSchema)
+const BankAccountModel = model('BankAccount', BankAccountSchema)
 
 export default BankAccountModel

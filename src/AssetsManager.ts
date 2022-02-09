@@ -1,14 +1,13 @@
-import express, {Express} from 'express'
-import dotenv from 'dotenv'
-import mongoose, { Schema } from 'mongoose'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import dotenv from 'dotenv'
+import express, { Express } from 'express'
+import mongoose from 'mongoose'
 
 import AssetsRouter from './Router'
 import LoginRouter from './services/auth/LoginRouter'
-import PersonRouter from './services/person/PersonService'
 import BankAccountService from './services/bank-account/BankAccountService'
-import ReportsService from './services/reports/ReportsService'
+import PersonRouter from './services/person/PersonService'
 
 dotenv.config()
 
@@ -31,16 +30,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 app.use(AssetsRouter)
-app.use("/auth", LoginRouter)
-app.use("/persons", PersonRouter)
-app.use("/bank-account", BankAccountService)
+app.use('/auth', LoginRouter)
+app.use('/persons', PersonRouter)
+app.use('/bank-account', BankAccountService)
 
 app.listen(PORT, DOMAIN, () => {
-    initDb()
-    console.log(`Service started with active profile ${PROFILES_ACTIVE}.`)
-    console.log(`Listen on ${BASE_URL}`)
+  initDb()
+  console.log(`Service started with active profile ${PROFILES_ACTIVE}.`)
+  console.log(`Listen on ${BASE_URL}`)
 })
 
 const initDb = () => {
-    mongoose.connect("mongodb://admin:admin@localhost:27017")
+  mongoose.connect('mongodb://admin:admin@localhost:27017')
 }

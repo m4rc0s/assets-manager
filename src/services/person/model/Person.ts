@@ -1,23 +1,23 @@
-import { Schema, Model, model } from "mongoose"
+import { Model, Schema, model } from 'mongoose'
 
 export interface IPersonModel {
-    firstName: String,
-    lastName: String,
-    documentNumber: String,
-    assets: Array<any>,
-    email: String,
-    bankAccounts: Array<any>
+  firstName: string
+  lastName: string
+  documentNumber: string
+  assets: Array<any>
+  email: string
+  bankAccounts: Array<any>
 }
 
 const PersonSchema = new Schema<IPersonModel, Model<IPersonModel>>({
-    firstName: String,
-    lastName: String,
-    documentNumber: String,
-    assets: [],
-    email: String,
-    bankAccounts: []
+  firstName: String,
+  lastName: String,
+  documentNumber: String,
+  assets: [],
+  email: String,
+  bankAccounts: [],
 })
 
-const PersonModel = model("Person", PersonSchema)
+const PersonModel = model('Person', PersonSchema)
 
 export default PersonModel
