@@ -1,6 +1,6 @@
 import { ILoginDTO, LoginDTO, LoginModel } from './model'
 
-export class LoginService {
+export default class LoginService {
   static create = async (loginData: LoginDTO): Promise<ILoginDTO> => {
     const loginModel = new LoginModel({
       username: loginData.username,
@@ -12,5 +12,3 @@ export class LoginService {
     return LoginDTO.fromModel(login)
   }
 }
-
-export default LoginService
